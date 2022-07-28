@@ -1,52 +1,38 @@
 import "./App.css";
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "./components/forms/search-bar/search-bar.component";
 import CardListContainer from "./components/card-list/card-list.container";
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      users: [],
-      query: "",
-    };
-  }
 
-  componentDidMount() {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((apiUsers) =>
-        this.setState(() => {
-          return { users: apiUsers };
-        })
-      );
-  }
-
-  search = (event) => {
-    const query = event.target.value.toLocaleLowerCase();
-    this.setState(() => {
-      return { query };
-    });
+const App = () => {
+  const [query, setQuery] = useState("");
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState(users);
+  const search = (event) => {
+    setQuery(event.target.value.toLocaleLowerCase());
   };
 
-  render() {
-    const { users, query } = this.state;
-    const { search } = this;
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((apiUsers) => setUsers(apiUsers));
+  });
 
-    const filteredUsers = users.filter((user) =>
-      user.name.toLocaleLowerCase().includes(query)
+  useEffect(() => {
+    setFilteredUsers(
+      users.filter((user) => user.name.toLocaleLowerCase().includes(query))
     );
+  }, [query, users]); //useEffect only executes the callback code if any of the values in the second param has changed
 
-    return (
-      <div className="App">
-        <SearchBar
-          search={search}
-          placeholder="Search users"
-          className="monsters"
-        ></SearchBar>
-        <CardListContainer users={filteredUsers} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      <SearchBar
+        search={search}
+        placeholder="Search users"
+        className="monsters"
+      ></SearchBar>
+      <CardListContainer users={filteredUsers} />
+    </div>
+  );
+};
 
 export default App;
