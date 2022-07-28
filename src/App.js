@@ -1,7 +1,7 @@
 import "./App.css";
 import { Component } from "react";
-import Card from "./components/card/card.component";
 import SearchBar from "./components/forms/search-bar/search-bar.component";
+import CardListContainer from "./components/card-list/card-list.container";
 class App extends Component {
   constructor() {
     super();
@@ -38,10 +38,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        <SearchBar search={search}></SearchBar>
-        {filteredUsers?.map((user) => (
-          <Card key={user.id} user={user}></Card>
-        ))}
+        <SearchBar
+          search={search}
+          placeholder="Search users"
+          className="monsters"
+        ></SearchBar>
+        <CardListContainer users={filteredUsers} />
       </div>
     );
   }
