@@ -44,6 +44,7 @@ class App extends Component {
           className="monsters"
         ></SearchBar>
         <CardListContainer users={filteredUsers} />
+        <div>App desarrollada por RFL</div> 
       </div>
     );
   }
