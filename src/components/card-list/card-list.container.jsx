@@ -8,7 +8,7 @@ export class CardListContainer extends Component {
     return (
       <div className="card-list">
         {users?.map((user) => (
-          <Card key={user.id} user={user}></Card>
+          <Card key={user.id} class="monster" user={user}></Card>
         ))}
       </div>
     );
